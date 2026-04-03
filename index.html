@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shetkari Saathi | शेतकरी साथी</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="scanlines"></div>
+  <div class="grid-bg"></div>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo-block">
+        <span class="logo-icon">⬡</span>
+        <div>
+          <div class="logo">SHETKARI SAATHI</div>
+          <div class="tagline">शेतकरी साथी — कृषी AI सहाय्यक v3.0</div>
+        </div>
+      </div>
+      <div class="status-badge"><span class="dot"></span>SYSTEM ONLINE</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Region + Language Controls -->
+    <div class="control-bar">
+      <div class="control-group">
+        <label class="bar-label">▶ REGION //</label>
+        <div class="btn-group" id="regionGroup">
+          <button class="region-btn active" onclick="setRegion(this,'Vidarbha')">विदर्भ</button>
+          <button class="region-btn" onclick="setRegion(this,'Marathwada')">मराठवाडा</button>
+          <button class="region-btn" onclick="setRegion(this,'Konkan')">कोकण</button>
+          <button class="region-btn" onclick="setRegion(this,'Western Maharashtra')">पश्चिम मह.</button>
+          <button class="region-btn" onclick="setRegion(this,'Nashik')">नाशिक</button>
+          <button class="region-btn" onclick="setRegion(this,'Khandesh')">खान्देश</button>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="bar-label">▶ LANGUAGE //</label>
+        <div class="btn-group" id="langGroup">
+          <button class="lang-btn active" onclick="setLang(this,'mr')">मराठी</button>
+          <button class="lang-btn" onclick="setLang(this,'hi')">हिंदी</button>
+          <button class="lang-btn" onclick="setLang(this,'en')">English</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="showTab('chat', this)">💬 <span id="tabChat">चॅट</span></button>
+      <button class="tab-btn" onclick="showTab('soil', this)">🪱 <span id="tabSoil">माती विश्लेषण</span></button>
+      <button class="tab-btn" onclick="showTab('market', this)">💰 <span id="tabMarket">बाजार & नफा-तोटा</span></button>
+      <button class="tab-btn" onclick="showTab('disaster', this)">🆘 <span id="tabDisaster">नुकसान & योजना</span></button>
+      <button class="tab-btn" onclick="showTab('weather', this)">🌦️ <span id="tabWeather">हवामान</span></button>
+    </div>
+
+    <!-- ═══════════════ TAB: CHAT ═══════════════ -->
+    <div id="tab-chat" class="tab-panel active">
+      <div class="terminal-header">
+        <span>// CHAT TERMINAL v3.0</span>
+        <span class="blink">█</span>
+      </div>
+      <div class="chat-box" id="chatBox">
+        <div class="message bot">
+          <span class="sender">SAATHI_BOT</span>
+          <span id="welcomeMsg">नमस्कार शेतकरी! मी शेतकरी साथी AI आहे. तुमच्या शेतीसाठी मी येथे आहे. वरील टॅब वापरून माती विश्लेषण, बाजार भाव, नुकसान भरपाई, आणि हवामान माहिती मिळवा. किंवा खाली थेट प्रश्न विचारा! 🌱</span>
+        </div>
+      </div>
+
+      <div class="quick-label">▶ QUICK QUERIES //</div>
+      <div class="quick-btns" id="quickBtns">
+        <button onclick="quickAsk(0)">🌾 <span>पीक सल्ला</span></button>
+        <button onclick="quickAsk(1)">🐛 <span>कीड नियंत्रण</span></button>
+        <button onclick="quickAsk(2)">💰 <span>बाजार भाव</span></button>
+        <button onclick="quickAsk(3)">🏔️ <span>जमीन सुधारणा</span></button>
+        <button onclick="quickAsk(4)">🌦️ <span>हवामान सल्ला</span></button>
+      </div>
+
+      <div class="input-area">
+        <span class="prompt-sym">▶</span>
+        <input type="text" id="userInput" placeholder="प्रश्न टाइप करा... / Type your question..." />
+        <button id="sendBtn" onclick="sendMessage()">SEND →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════ TAB: SOIL ═══════════════ -->
+    <div id="tab-soil" class="tab-panel">
+      <div class="panel-section">
+        <div class="panel-title">▶ माती विश्लेषण // <span class="accent">SOIL ANALYSIS</span></div>
+        <div class="form-grid three-col">
+          <div class="form-group">
+            <label class="form-label">pH मूल्य</label>
+            <input class="form-input" id="soilPh" type="number" step="0.1" min="0" max="14" placeholder="उदा. 7.2" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">नायट्रोजन N (kg/ha)</label>
+            <input class="form-input" id="soilN" type="number" placeholder="उदा. 180" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">फॉस्फरस P (kg/ha)</label>
+            <input class="form-input" id="soilP" type="number" placeholder="उदा. 12" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">पोटॅश K (kg/ha)</label>
+            <input class="form-input" id="soilK" type="number" placeholder="उदा. 220" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">जमीन (एकर)</label>
+            <select class="form-select" id="soilArea">
+              <option value="small">1 ते 3 एकर</option>
+              <option value="medium">3 ते 7 एकर</option>
+              <option value="large">7+ एकर</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">हंगाम</label>
+            <select class="form-select" id="soilSeason">
+              <option value="kharif">खरीप (जून-ऑक्टो)</option>
+              <option value="rabi">रब्बी (नोव्हे-मार्च)</option>
+              <option value="summer">उन्हाळी (फेब्रु-मे)</option>
+            </select>
+          </div>
+        </div>
+        <button class="action-btn" onclick="analyzeSoil()">▶ माती विश्लेषण करा</button>
+        <div class="result-box" id="soilResult"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ TAB: MARKET ═══════════════ -->
+    <div id="tab-market" class="tab-panel">
+      <div class="panel-section">
+        <div class="panel-title">▶ आजचे बाजार भाव // <span class="accent">MARKET PRICES</span></div>
+        <div class="form-grid" style="max-width:400px;">
+          <div class="form-group">
+            <label class="form-label">पीक निवडा</label>
+            <select class="form-select" id="marketCrop">
+              <option value="cotton">कापूस</option>
+              <option value="soybean">सोयाबीन</option>
+              <option value="onion">कांदा</option>
+              <option value="tomato">टोमॅटो</option>
+              <option value="wheat">गहू</option>
+              <option value="chana">हरभरा</option>
+              <option value="tur">तूर डाळ</option>
+              <option value="chili">मिरची</option>
+              <option value="grape">द्राक्षे</option>
+              <option value="sugarcane">ऊस</option>
+            </select>
+          </div>
+        </div>
+        <button class="action-btn blue" onclick="getMarketPrice()" style="margin-top:0;">▶ भाव बघा</button>
+        <div class="price-card" id="priceCard">
+          <div class="price-crop" id="priceCropName"></div>
+          <div class="price-range" id="priceRange"></div>
+          <div class="price-unit" id="priceUnit"></div>
+        </div>
+      </div>
+
+      <hr class="panel-divider" />
+
+      <div class="panel-section">
+        <div class="panel-title">▶ नफा-तोटा हिशोब // <span class="accent">GAIN/LOSS CALCULATOR</span></div>
+        <div class="form-grid three-col">
+          <div class="form-group">
+            <label class="form-label">एकूण उत्पन्न (किंटल)</label>
+            <input class="form-input" id="glYield" type="number" placeholder="उदा. 12" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">विक्री भाव (₹/किंटल)</label>
+            <input class="form-input" id="glPrice" type="number" placeholder="उदा. 7200" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">एकूण खर्च (₹)</label>
+            <input class="form-input" id="glCost" type="number" placeholder="उदा. 35000" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">ट्रान्सपोर्ट खर्च (₹)</label>
+            <input class="form-input" id="glTransport" type="number" placeholder="उदा. 2000" />
+          </div>
+        </div>
+        <button class="action-btn yellow" onclick="calcGainLoss()">▶ हिशोब करा</button>
+        <div class="result-box" id="glResult"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ TAB: DISASTER ═══════════════ -->
+    <div id="tab-disaster" class="tab-panel">
+      <div class="panel-section">
+        <div class="panel-title">▶ नुकसान भरपाई & योजना // <span class="accent">DISASTER RELIEF</span></div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">नुकसानाचे कारण</label>
+            <select class="form-select" id="disasterType">
+              <option value="hail">गारपीट</option>
+              <option value="flood">पूर</option>
+              <option value="drought">दुष्काळ</option>
+              <option value="heat">उष्णतेची लाट</option>
+              <option value="pest">कीड/रोग</option>
+              <option value="rain">अवकाळी पाऊस</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">नुकसानाची टक्केवारी</label>
+            <select class="form-select" id="disasterPct">
+              <option value="25">25% पेक्षा कमी</option>
+              <option value="33">33-50%</option>
+              <option value="50">50-75%</option>
+              <option value="75">75%+ (संपूर्ण)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">PMFBY विमा भरला आहे का?</label>
+            <select class="form-select" id="disasterInsured">
+              <option value="yes">हो</option>
+              <option value="no">नाही</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">जमीन प्रकार</label>
+            <select class="form-select" id="disasterLand">
+              <option value="marginal">अल्पभूधारक (1 एकरपेक्षा कमी)</option>
+              <option value="small">लहान (1-5 एकर)</option>
+              <option value="large">मोठे (5+ एकर)</option>
+            </select>
+          </div>
+        </div>
+        <button class="action-btn" onclick="findSchemes()">▶ योजना शोधा</button>
+        <div class="result-box" id="disasterResult"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ TAB: WEATHER ═══════════════ -->
+    <div id="tab-weather" class="tab-panel">
+      <!-- Real-time weather widget -->
+      <div class="realtime-weather" id="realtimeWeather">
+        <div class="rw-loading" id="rwLoading">📡 हवामान डेटा लोड होत आहे...</div>
+        <div id="rwContent" style="display:none; width:100%; display:none; flex-wrap:wrap; gap:14px; align-items:center; justify-content:space-between;">
+          <div class="rw-main">
+            <div class="rw-icon" id="rwIcon">🌤️</div>
+            <div>
+              <div class="rw-temp" id="rwTemp">--°C</div>
+              <div class="rw-place" id="rwPlace">MAHARASHTRA, IN</div>
+              <div class="rw-desc" id="rwDesc">--</div>
+            </div>
+          </div>
+          <div class="rw-stats">
+            <div class="rw-stat">
+              <div class="rw-stat-val" id="rwHumid">--%</div>
+              <div class="rw-stat-lbl">HUMIDITY</div>
+            </div>
+            <div class="rw-stat">
+              <div class="rw-stat-val" id="rwWind">-- km/h</div>
+              <div class="rw-stat-lbl">WIND</div>
+            </div>
+            <div class="rw-stat">
+              <div class="rw-stat-val" id="rwRain">-- mm</div>
+              <div class="rw-stat-lbl">RAINFALL</div>
+            </div>
+            <div class="rw-stat">
+              <div class="rw-stat-val" id="rwUV">--</div>
+              <div class="rw-stat-lbl">UV INDEX</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="panel-title">▶ हवामान सल्ला // <span class="accent">WEATHER ADVISORY</span></div>
+        <div class="form-grid" style="max-width:500px;">
+          <div class="form-group">
+            <label class="form-label">हंगाम</label>
+            <select class="form-select" id="wxSeason">
+              <option value="premonsoon">पूर्व मान्सून (एप्रिल-जून)</option>
+              <option value="monsoon">मान्सून (जुलै-सप्टेंबर)</option>
+              <option value="postmonsoon">परतीचा मान्सून (ऑक्टो-नोव्हे)</option>
+              <option value="winter">हिवाळा (डिसे-फेब्रु)</option>
+              <option value="summer">उन्हाळा (मार्च-मे)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">मुख्य पीक</label>
+            <select class="form-select" id="wxCrop">
+              <option value="cotton">कापूस</option>
+              <option value="soybean">सोयाबीन</option>
+              <option value="wheat">गहू</option>
+              <option value="onion">कांदा</option>
+              <option value="grape">द्राक्षे</option>
+              <option value="rice">भात</option>
+              <option value="tur">तूर</option>
+              <option value="sugarcane">ऊस</option>
+            </select>
+          </div>
+        </div>
+        <button class="action-btn blue" onclick="getWeatherAdvice()">▶ हवामान सल्ला बघा</button>
+        <div class="result-box blue-accent" id="wxResult"></div>
+      </div>
+
+      <div class="weather-alerts-title">▶ आपत्कालीन सूचना // WEATHER ALERTS</div>
+      <div class="alert-cards" id="alertCards">
+        <div class="alert-card amber">
+          <div class="alert-title">⚡ गारपीट सावधान</div>
+          <div class="alert-body">पुढील 6 तासात विदर्भात गारपीट होण्याची शक्यता. फवारणी थांबवा व थांबा.</div>
+        </div>
+        <div class="alert-card blue">
+          <div class="alert-title">🌧️ मान्सून अंदाज</div>
+          <div class="alert-body">विदर्भात मान्सून 12-15 जून दरम्यान अपेक्षित. पेरणीची तयारी करा.</div>
+        </div>
+        <div class="alert-card green">
+          <div class="alert-title">✅ पेरणी विंडो</div>
+          <div class="alert-body">जमिनीत 65% ओलावा — कापूस पेरणीसाठी आजचा दिवस उत्तम.</div>
+        </div>
+        <div class="alert-card red">
+          <div class="alert-title">🌡️ उष्णतेची लाट</div>
+          <div class="alert-body">पुढे 3 दिवस 44°C+ तापमान. सकाळी 7 च्या आधी काम करा.</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    © 2026 SHETKARI SAATHI // BUILT FOR MAHARASHTRA FARMERS // MMIT PUNE
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
